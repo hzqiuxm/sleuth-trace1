@@ -1,0 +1,55 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.RELEASE'
+	}
+	repositories {
+		mavenLocal()
+		maven{
+			name  'ali Maven Repository'
+			url 'http://maven.aliyun.com/nexus/content/groups/public/'
+		}
+		maven{
+			name  'znxz Maven Repository'
+			url 'http://www.ziniuxiaozhu.com:8081/nexus/content/groups/public/'
+		}
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.spring.cloud'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+	springCloudVersion = 'Finchley.M8'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+	compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//		mavenBom 'org.springframework.cloud:spring-cloud-sleuth:1.3.2.RELEASE'
+	}
+}
